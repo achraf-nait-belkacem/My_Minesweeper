@@ -1,5 +1,7 @@
 import pygame
 
+from src.MenuState import MenuState
+
 class App:
     def __init__(self, w, h, scaling):
         self.running = True
@@ -9,22 +11,29 @@ class App:
         self.window_w = w
         self.window_h = h
 
+        self.dt = None
+        self.state = None
+
     def _init(self):
         pygame.init()
         self.screen = pygame.display.set_mode((int(self.window_w * self.scaling), int(self.window_h * self.scaling)))
         self.clock = pygame.time.Clock()
 
+        self.state = MenuState()
+
     def _draw(self):
-        self.screen.fill("purple")
+        self.state.draw(self)
 
     def _events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            self.state.events(self, event)
 
     def _update(self):
+        self.state.update(self)
         pygame.display.flip()
-        self.clock.tick(60)
+        self.dt = self.clock.tick(60) / 1000.0
 
     def run(self):
         self._init()
