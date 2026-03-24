@@ -1,8 +1,7 @@
 from src.App import App
 
 def main():
-    app = App()
-    app.init(1280, 720)
+    app = App(1280, 720, 0.5)
     app.run()
 
 if __name__ == "__main__":

@@ -1,14 +1,17 @@
 import pygame
 
 class App:
-    def __init__(self):
+    def __init__(self, w, h, scaling):
         self.running = True
         self.screen = None
         self.clock = None
+        self.scaling = scaling
+        self.window_w = w
+        self.window_h = h
 
-    def init(self, w, h):
+    def _init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((w, h))
+        self.screen = pygame.display.set_mode((int(self.window_w * self.scaling), int(self.window_h * self.scaling)))
         self.clock = pygame.time.Clock()
 
     def _draw(self):
@@ -24,6 +27,7 @@ class App:
         self.clock.tick(60)
 
     def run(self):
+        self._init()
         while self.running:
             self._events()
             self._draw()
