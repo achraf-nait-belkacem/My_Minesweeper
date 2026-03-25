@@ -1,14 +1,17 @@
 import random
-import cell
+from src.GameLogic.cell import Cell
 
 class Board:
     def __init__(self, rows, cols, mines):
         self.rows = rows
         self.cols = cols
         self.mines = mines
-        self.grid = [[cell() for _ in range(cols)] for _ in range(rows)]
+        self.grid = [[Cell() for _ in range(cols)] for _ in range(rows)]
         self.initialized = False
     
+    def get_grid(self):
+        return self.grid
+
     def fill_board(self, safe_x, safe_y):
         self.place_mines(safe_x, safe_y)
         self.calculate_numbers()
