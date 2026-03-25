@@ -6,7 +6,7 @@ class Board:
         self.rows = rows
         self.cols = cols
         self.mines = mines
-        self.grid = [[cell() for _ in range(cols)] for _ in range(rows)]
+        self.grid = [[cell.Cell() for _ in range(cols)] for _ in range(rows)]
         self.initialized = False
     
     def fill_board(self, safe_x, safe_y):
