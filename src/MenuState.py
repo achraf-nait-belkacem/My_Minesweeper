@@ -1,5 +1,5 @@
 import pygame
-
+import sys
 class MenuState:
     def __init__(self):
         self.font = pygame.font.Font(None, 50)
@@ -54,7 +54,7 @@ class MenuState:
                 print("Scores")
 
             elif self.quit_button.collidepoint(event.pos):
-                app.running = False
-
+                pygame.quit()
+                sys.exit()
     def update(self, app):
         pass
