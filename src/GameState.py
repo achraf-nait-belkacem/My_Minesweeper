@@ -128,7 +128,21 @@ class GameState(StateAbstract):
         hint_rect = hint.get_rect(center=(w // 2, h // 2 + 90))
         app.screen.blit(hint, hint_rect)
 
+        # Always visible (even during win/lose overlay).
+        self._draw_reset_button(app)
+
     def events(self, app, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            self._go_to_menu(app)
+            return
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self._reset_rect is None:
+                self._layout_reset_button(app)
+            if self._reset_rect.collidepoint(event.pos):
+                self._reset_game(app)
+                return
+
         if self._game_over_screen:
             if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                 self._go_to_menu(app)
