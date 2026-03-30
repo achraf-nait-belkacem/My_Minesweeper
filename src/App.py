@@ -1,6 +1,8 @@
 import pygame
 
+from src.GameLogic.Board import Board
 from src.MenuState import MenuState
+
 
 class App:
     def __init__(self, w, h, scaling):
@@ -19,7 +21,9 @@ class App:
         self.screen = pygame.display.set_mode((int(self.window_w * self.scaling), int(self.window_h * self.scaling)))
         self.clock = pygame.time.Clock()
 
+        self.board = Board(10, 10, 10)
         self.state = MenuState()
+        self.state.init(self)
 
     def _draw(self):
         self.state.draw(self)
@@ -41,5 +45,4 @@ class App:
             self._events()
             self._draw()
             self._update()
-
-pygame.quit()
+        pygame.quit()

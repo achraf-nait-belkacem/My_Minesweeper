@@ -1,0 +1,5 @@
+CELL_SIZE = 40
+MARGIN = 2
+FONT_SIZE = 24
+
+SCORES_FILE = "scores.json"
