@@ -3,3 +3,6 @@ MARGIN = 2
 FONT_SIZE = 24
 
 SCORES_FILE = "scores.json"
+
+LEFT_PANEL = 160
+RIGHT_PANEL = 180

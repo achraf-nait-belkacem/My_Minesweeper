@@ -1,5 +1,7 @@
 import random
+
 from src.GameLogic.Cell import Cell
+
 
 class Board:
     def __init__(self, rows, cols, mines):
@@ -8,9 +10,6 @@ class Board:
         self.mines = mines
         self.grid = [[Cell() for _ in range(cols)] for _ in range(rows)]
         self.initialized = False
-
-    def get_grid(self):
-        return self.grid
 
     def in_bounds(self, r, c):
         return 0 <= r < self.rows and 0 <= c < self.cols
@@ -51,10 +50,9 @@ class Board:
                 cell = self.grid[r][c]
                 if cell.is_mine:
                     continue
-                count = 0
-                for nr, nc in self.get_neighbors(r, c):
-                    if self.grid[nr][nc].is_mine:
-                        count += 1
+                count = sum(
+                    1 for nr, nc in self.get_neighbors(r, c) if self.grid[nr][nc].is_mine
+                )
                 cell.neighbor_mines = count
 
     def reveal_cell(self, r, c):
@@ -71,7 +69,6 @@ class Board:
             self.reveal_all_mines()
             return "mine"
 
-        # empty cell: open neighbors (recursive flood fill)
         if result == "empty":
             for nr, nc in self.get_neighbors(r, c):
                 self.reveal_cell(nr, nc)
@@ -85,8 +82,4 @@ class Board:
                     cell.is_revealed = True
 
     def check_win(self):
-        for row in self.grid:
-            for cell in row:
-                if not cell.is_mine and not cell.is_revealed:
-                    return False
-        return True
+        return all(cell.is_revealed or cell.is_mine for row in self.grid for cell in row)

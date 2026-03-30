@@ -15,7 +15,6 @@ class MenuState(StateAbstract):
         self.button_height = 60
         self.spacing = 20
         self.play_button = None
-        self.settings_button = None
         self.scores_button = None
         self.quit_button = None
 
@@ -23,21 +22,15 @@ class MenuState(StateAbstract):
         center_x = app.screen.get_width() // 2 - self.button_width // 2
         start_y = 150
         self.play_button = pygame.Rect(center_x, start_y, self.button_width, self.button_height)
-        self.settings_button = pygame.Rect(
+        self.scores_button = pygame.Rect(
             center_x,
             start_y + (self.button_height + self.spacing),
             self.button_width,
             self.button_height,
         )
-        self.scores_button = pygame.Rect(
-            center_x,
-            start_y + 2 * (self.button_height + self.spacing),
-            self.button_width,
-            self.button_height,
-        )
         self.quit_button = pygame.Rect(
             center_x,
-            start_y + 3 * (self.button_height + self.spacing),
+            start_y + 2 * (self.button_height + self.spacing),
             self.button_width,
             self.button_height,
         )
@@ -48,11 +41,9 @@ class MenuState(StateAbstract):
         self._layout_buttons(app)
 
     def draw(self, app):
-        self._layout_buttons(app)
         app.screen.fill(self.bg_color)
 
         pygame.draw.rect(app.screen, self.button_color, self.play_button)
-        pygame.draw.rect(app.screen, self.button_color, self.settings_button)
         pygame.draw.rect(app.screen, self.button_color, self.scores_button)
         pygame.draw.rect(app.screen, self.button_color, self.quit_button)
 
@@ -62,19 +53,14 @@ class MenuState(StateAbstract):
             app.screen.blit(surface, rect_text)
 
         draw_text("PLAY", self.play_button)
-        draw_text("SETTINGS", self.settings_button)
         draw_text("BEST SCORES", self.scores_button)
         draw_text("QUIT", self.quit_button)
 
     def events(self, app, event):
-        if self.play_button is None:
-            self._layout_buttons(app)
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.play_button.collidepoint(event.pos):
-                app.state = GameState(app.board)
+                app.state = GameState(app.board_rows, app.board_cols, app.board_mines)
                 app.state.init(app)
-            elif self.settings_button.collidepoint(event.pos):
-                print("Settings")
             elif self.scores_button.collidepoint(event.pos):
                 app.state = ScoreState()
                 app.state.init(app)
